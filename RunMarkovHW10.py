@@ -10,12 +10,13 @@ import Scratch3 as MarkovCls
 
 
 print("Problem 1")
-
+print(P.calculate_prob_matrix())
 cohort = MarkovCls.Cohort(
     id=0,
     therapy=P.Therapies.NONE)
 
-simOutputs = cohort.simulate()
+#simOutputs = cohort.simulate()
+
 
 #cohort2 = MarkovCls.Cohort(
 #    id=1,
@@ -31,3 +32,7 @@ print("Problem 2")
 
 print("Problem 3")
 #SupportMarkov.report_CEA_CBA(simOutputs, simOutputs2)
+
+print("Problem 4")
+#SupportMarkov.report_CEA_CBA(simOutputs_combo=simOutputs2, simOutputs_mono=simOutputs)
+print("I would be willing to pay for this at the ____ level")

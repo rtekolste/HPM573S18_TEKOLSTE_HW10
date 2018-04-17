@@ -247,7 +247,7 @@ class CohortOutputs:
             # get the patient's time to AIDS
             time_to_stroke = patient.get_time_to_stroke()
             if not (time_to_stroke is None):
-                self._times_to_AIDS.append(time_to_stroke)
+                self._times_to_Stroke.append(time_to_stroke)
 
             # cost and utility
             self._costs.append(patient.get_total_discounted_cost())
@@ -255,7 +255,7 @@ class CohortOutputs:
 
         # summary statistics
         self._sumStat_survivalTime = StatCls.SummaryStat('Patient survival time', self._survivalTimes)
-        self._sumStat_timeToStroke = StatCls.SummaryStat('Time until AIDS', self._times_to_Stroke)
+        self._sumStat_timeToStroke = StatCls.SummaryStat('Time until Stroke', self._times_to_Stroke)
         self._sumStat_cost = StatCls.SummaryStat('Patient discounted cost', self._costs)
         self._sumStat_utility = StatCls.SummaryStat('Patient discounted utility', self._utilities)
 
