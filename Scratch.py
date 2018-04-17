@@ -26,6 +26,11 @@ def print_outcomes(simOutput, therapy_name):
         interval=simOutput.get_sumStat_discounted_utility().get_t_CI(alpha=Settings.ALPHA),
         deci=2)
 
+    cost_mean_CI_text = F.format_estimate_interval(
+        estimate=simOutput.get_sumStat_discounted_cost().get_mean(),
+        interval=simOutput.get_sumStat_discounted_cost().get_t_CI(alpha=Settings.ALPHA),
+        deci=2)
+
     # print outcomes
     print(therapy_name)
     print("  Estimate of mean and {:.{prec}%} confidence interval of survival time:".format(1 - Settings.ALPHA, prec=0),
@@ -34,6 +39,8 @@ def print_outcomes(simOutput, therapy_name):
           strokes_mean_CI_text)
     print("  Estimate of discounted utility and {:.{prec}%} confidence interval:".format(1 - Settings.ALPHA, prec=0),
           utility_mean_CI_text)
+    print("  Estimate of discounted cost and {:.{prec}%} confidence interval:".format(1 - Settings.ALPHA, prec=0),
+          cost_mean_CI_text)
     print("")
 
 def print_comparative_outcomes(simOutputs_none, simOutputs_anticoag):
@@ -106,6 +113,14 @@ def print_comparative_outcomes(simOutputs_none, simOutputs_anticoag):
     print("Average increase in discounted utility "
           "and {:.{prec}%} confidence interval:".format(1 - Settings.ALPHA, prec=0),
           estimate_CI)
+
+    estimate_cost_CI = F.format_estimate_interval(
+        estimate=increase_discounted_cost.get_mean(),
+        interval=increase_discounted_cost.get_t_CI(alpha=Settings.ALPHA),
+        deci=2)
+    print("Average increase in discounted cost "
+          "and {:.{prec}%} confidence interval:".format(1 - Settings.ALPHA, prec=0),
+          estimate_cost_CI)
 
 def report_CEA_CBA(simOutputs_mono, simOutputs_combo):
     """ performs cost-effectiveness analysis

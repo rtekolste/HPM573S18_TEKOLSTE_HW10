@@ -6,10 +6,10 @@ DISCOUNT = 0.03     # annual discount rate
 
 ADD_BACKGROUND_MORT = False  # if background mortality should be added
 
-PSA_ON = True      # if probabilistic sensitivity analysis is on
+PSA_ON = False      # if probabilistic sensitivity analysis is on
 
 # transition matrix
-TRANS_MATRIX = [
+Q3_TRANS_MATRIX = [
     [0.75,  0.15,   0.0,    0.1],   # Well
     [0,     0.0,    1.0,    0.0],   # Stroke
     [0,     0.25,   0.55,   0.2],   # Post-Stroke
