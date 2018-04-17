@@ -193,3 +193,78 @@ def report_CEA_CBA(simOutputs_mono, simOutputs_combo):
         show_legend=True,
         figure_size=6
     )
+
+
+def print_table(simOutputs_mono, simOutputs_combo):
+    title = "Cost-utility Analysis"
+    column_titles = ["Treatment", "Discounted Cost", "Discounted Utility",\
+                     "Incremental Discounted Cost", "Incremental Discount Utility", "ICER"]
+    #find values in Row 1
+    cost_mean_CI_text = F.format_estimate_interval(
+        estimate=simOutputs_mono.get_sumStat_discounted_cost().get_mean(),
+        interval=simOutputs_mono.get_sumStat_discounted_cost().get_t_CI(alpha=Settings.ALPHA),
+        deci=2)
+    discount_mean_CI_text = F.format_estimate_interval(
+        estimate=simOutputs_mono.get_sumStat_discounted_utility().get_mean(),
+        interval=simOutputs_mono.get_sumStat_discounted_utility().get_t_CI(alpha=Settings.ALPHA),
+        deci=2)
+
+
+    row1=["No Treatment ", cost_mean_CI_text, discount_mean_CI_text, "N/A",\
+          "N/A", "N/A"]
+
+    cost2_mean_CI_text = F.format_estimate_interval(
+        estimate=simOutputs_combo.get_sumStat_discounted_cost().get_mean(),
+        interval=simOutputs_combo.get_sumStat_discounted_cost().get_t_CI(alpha=Settings.ALPHA),
+        deci=2)
+
+    discount2_mean_CI_text = F.format_estimate_interval(
+        estimate=simOutputs_combo.get_sumStat_discounted_utility().get_mean(),
+        interval=simOutputs_combo.get_sumStat_discounted_utility().get_t_CI(alpha=Settings.ALPHA),
+        deci=2)
+
+    if Settings.PSA_ON:
+        increase_discounted_cost = Stat.DifferenceStatPaired(
+            name='Increase in discounted cost',
+            x=simOutputs_combo.get_costs(),
+            y_ref=simOutputs_mono.get_costs())
+    else:
+        increase_discounted_cost = Stat.DifferenceStatIndp(
+            name='Increase in discounted cost',
+            x=simOutputs_combo.get_costs(),
+            y_ref=simOutputs_mono.get_costs())
+
+
+    incremental_cost = F.format_estimate_interval(
+        estimate=increase_discounted_cost.get_mean(),
+        interval=increase_discounted_cost.get_t_CI(alpha=Settings.ALPHA),
+        deci=0,
+        form=F.FormatNumber.CURRENCY)
+
+    if Settings.PSA_ON:
+        increase_discounted_utility = Stat.DifferenceStatPaired(
+            name='Increase in discounted utility',
+            x=simOutputs_combo.get_utilities(),
+            y_ref=simOutputs_mono.get_utilities())
+    else:
+        increase_discounted_utility = Stat.DifferenceStatIndp(
+            name='Increase in discounted cost',
+            x=simOutputs_combo.get_utilities(),
+            y_ref=simOutputs_mono.get_utilities())
+
+    # estimate and CI
+    incremental_utility = F.format_estimate_interval(
+        estimate=increase_discounted_utility.get_mean(),
+        interval=increase_discounted_utility.get_t_CI(alpha=Settings.ALPHA),
+        deci=2)
+
+
+    ICER = increase_discounted_utility.get_mean()/increase_discounted_cost.get_mean()
+
+    row2=["Anticoagulation", cost2_mean_CI_text, discount2_mean_CI_text, incremental_cost,\
+          incremental_utility, ICER]
+
+    print(title)
+    print(column_titles)
+    print(row1)
+    print(row2)

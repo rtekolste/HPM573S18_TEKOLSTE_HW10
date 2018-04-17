@@ -2,7 +2,7 @@ import scr.SamplePathClasses as PathCls
 import scr.StatisticalClasses as StatCls
 import scr.RandomVariantGenerators as rndClasses
 import scr.EconEvalClasses as EconCls
-import Scratch4 as P
+import Parameters as P
 import InputDataHW10 as Data
 
 
