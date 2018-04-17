@@ -6,7 +6,7 @@ DISCOUNT = 0.03     # annual discount rate
 
 ADD_BACKGROUND_MORT = False  # if background mortality should be added
 
-PSA_ON = False      # if probabilistic sensitivity analysis is on
+PSA_ON = True      # if probabilistic sensitivity analysis is on
 
 # transition matrix
 TRANS_MATRIX = [
@@ -21,7 +21,7 @@ ANNUAL_STATE_COST = [
     0,     # Well
     5000,  # Stroke
     200,   # Post-Stroke
-    0     # Stroke Death      # Dead
+    0,     # Stroke Death      # Dead
     ]
 
 # annual health utility of each health state
@@ -29,7 +29,7 @@ ANNUAL_STATE_UTILITY = [
     1.0000,   # Well
     0.8865,   # Stroke
     0.9000,   # Post-Stroke
-    0.0000   # Stroke Death
+    0.0000,   # Stroke Death
     ]
 
 
@@ -42,3 +42,5 @@ RR_BLEEDING = 1.05
 
 NoTreatment_COST = 0
 AntiCoag_COST = 2000
+
+ANNUAL_PROB_BACKGROUND_MORT= 0

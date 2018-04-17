@@ -7,7 +7,7 @@ class HealthStats(Enum):
     WELL = 0
     STROKE = 1
     POST_STROKE = 2
-    STROKE_DEATH = 3
+    DEATH = 3
 
 class Therapies(Enum):
     """ mono vs. combination therapy """
@@ -59,13 +59,13 @@ class _Parameters:
         return self._prob_matrix[state.value]
 
     def get_annual_state_cost(self, state):
-        if state == HealthStats.STROKE_DEATH: # or state == HealthStats.BACKGROUND_DEATH:
+        if state == HealthStats.DEATH  or state == HealthStats.BACKGROUND_DEATH:
             return 0
         else:
             return self._annualStateCosts[state.value]
 
     def get_annual_state_utility(self, state):
-        if state == HealthStats.STROKE_DEATH: # or state == HealthStats.BACKGROUND_DEATH:
+        if state == HealthStats.DEATH  or state == HealthStats.BACKGROUND_DEATH:
             return 0
         else:
             return self._annualStateUtilities[state.value]
@@ -114,13 +114,13 @@ class ParametersFixed():
         self._annualStateUtilities = Data.ANNUAL_STATE_UTILITY
 
     def get_annual_state_cost(self, state):
-        if state == HealthStats.STROKE_DEATH: # or state == HealthStats.BACKGROUND_DEATH:
+        if state == HealthStats.DEATH: # or state == HealthStats.BACKGROUND_DEATH:
             return 0
         else:
             return self._annualStateCosts[state.value]
 
     def get_annual_state_utility(self, state):
-        if state == HealthStats.STROKE_DEATH or state: # == HealthStats.BACKGROUND_DEATH:
+        if state == HealthStats.DEATH or state: # == HealthStats.BACKGROUND_DEATH:
             return 0
         else:
             return self._annualStateUtilities[state.value]
@@ -147,11 +147,11 @@ def calculate_prob_matrix_anticoag():
             prob_matrix[s.value][HealthStats.STROKE.value]\
                 = Data.RR_STROKE*Data.TRANS_MATRIX[s.value][HealthStats.STROKE.value]
             # post-stroke to death
-            prob_matrix[s.value][HealthStats.STROKE_DEATH.value] \
-                = Data.RR_STROKE * Data .RR_BLEEDING * Data.TRANS_MATRIX[s.value][HealthStats.STROKE_DEATH.value]
+            prob_matrix[s.value][HealthStats.DEATH.value] \
+                = Data.RR_STROKE * Data .RR_BLEEDING * Data.TRANS_MATRIX[s.value][HealthStats.DEATH.value]
             # staying in post-stroke
             prob_matrix[s.value][s.value]\
-                = 1 -prob_matrix[s.value][HealthStats.STROKE.value] -prob_matrix[s.value][HealthStats.STROKE_DEATH.value]
+                = 1 -prob_matrix[s.value][HealthStats.STROKE.value] -prob_matrix[s.value][HealthStats.DEATH.value]
         else:
             prob_matrix[s.value] = Data.TRANS_MATRIX[s.value]
 

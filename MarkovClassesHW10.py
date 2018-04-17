@@ -2,8 +2,9 @@ import scr.SamplePathClasses as PathCls
 import scr.StatisticalClasses as StatCls
 import scr.EconEvalClasses as EconCls
 import scr.RandomVariantGenerators as rndClasses
-import ParameterClassesHW10 as P
+import ParameterClasses as P
 import InputDataHW10 as Data
+
 
 # patient class simulates patient, patient monitor follows patient, cohort simulates a cohort,
 #  cohort outcome extracts info from simulation and returns it back
@@ -93,7 +94,7 @@ class PatientStateMonitor:
             return
 
         # update survival time
-        if next_state is P.HealthStats.STROKE_DEATH:
+        if next_state is P.HealthStats.DEATH:
             self._survivalTime = (k+0.5) * self._delta_t  # k is number of steps its been, delta t is length of time
             # step, the 0.5 is a half cycle correction
 
@@ -108,7 +109,7 @@ class PatientStateMonitor:
 
     def get_if_alive(self):
         result = True
-        if self._currentState == P.HealthStats.STROKE_DEATH:
+        if self._currentState == P.HealthStats.DEATH:
             result = False
         return result
 
@@ -162,7 +163,7 @@ class PatientCostUtilityMonitor:
 
         # add the cost of treatment
         # if HIV death will occur
-        if next_state in [P.HealthStats.STROKE_DEATH, P.HealthStats.BACKGROUND_DEATH]:
+        if next_state in [P.HealthStats.DEATH, P.HealthStats.BACKGROUND_DEATH]:
             cost += 0.5 * self._param.get_annual_treatment_cost() * self._param.get_delta_t()
         else:
             cost += 1 * self._param.get_annual_treatment_cost() * self._param.get_delta_t()
