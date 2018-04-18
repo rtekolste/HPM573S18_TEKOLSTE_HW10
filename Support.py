@@ -264,7 +264,16 @@ def print_table(simOutputs_mono, simOutputs_combo):
     row2=["Anticoagulation", cost2_mean_CI_text, discount2_mean_CI_text, incremental_cost,\
           incremental_utility, ICER]
 
-    print(title)
-    print(column_titles)
-    print(row1)
-    print(row2)
+    treatments =        ["Treatment                     ", "No Treatment            ", "Anticoagulation"]
+    costs =             ["Discounted Costs and 95% CI   ", cost_mean_CI_text, cost2_mean_CI_text]
+    utility =           ["Discounted Utility and 95% CI ", discount_mean_CI_text,"  ", discount2_mean_CI_text]
+    incremental_cost =  ["Incremental Cost & 95% CI     ", "NA                      ", incremental_cost]
+    incremental_utility=["Incremental Utility & 95% CI  ", "NA                      ", incremental_utility]
+    icer =              ["ICER                          ", "NA                      ", ICER]
+
+    print(treatments)
+    print(costs)
+    print(utility)
+    print(incremental_cost)
+    print(incremental_utility)
+    print(icer)
